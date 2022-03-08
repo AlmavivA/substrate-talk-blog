@@ -1,4 +1,4 @@
-use node_substrate-talk-blog_runtime::{
+use node_substrate_talk_blog_runtime::{
 	AccountId, AuraConfig, BalancesConfig, GenesisConfig, GrandpaConfig, Signature, SudoConfig,
 	SystemConfig, WASM_BINARY,
 };
@@ -147,7 +147,7 @@ fn testnet_genesis(
 		},
 		sudo: SudoConfig {
 			// Assign network admin rights.
-			key: root_key,
+			key: Some(root_key),
 		},
 		transaction_payment: Default::default(),
 	}

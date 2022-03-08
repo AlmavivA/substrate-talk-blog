@@ -34,8 +34,9 @@ pub use frame_support::{
 	StorageValue,
 };
 
-pub type RefCount = u32;
-use frame_support::pallet_prelude::{ConstU32, Get};
+// pub type RefCount = u32;
+// use frame_support::pallet_prelude::{ConstU32, Get};
+use frame_support::pallet_prelude::{ConstU32};
 
 pub use pallet_balances::Call as BalancesCall;
 pub use pallet_timestamp::Call as TimestampCall;
@@ -231,7 +232,7 @@ impl frame_system::Config for Runtime {
 	/// The set code logic, just the default since we're not a parachain.
 	type OnSetCode = ();
 
-	type MaxConsumers = dyn frame_system::ConsumerLimits;
+	type MaxConsumers = ConstU32<16>;
 }
 
 impl pallet_randomness_collective_flip::Config for Runtime {}

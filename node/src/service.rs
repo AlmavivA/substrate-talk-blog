@@ -1,7 +1,8 @@
 //! Service and ServiceFactory implementation. Specialized wrapper over substrate service.
 
-use node_substrate-talk-blog_runtime::{self, opaque::Block, RuntimeApi};
-use sc_client_api::{ExecutorProvider, RemoteBackend};
+use node_substrate_talk_blog_runtime::{self, opaque::Block, RuntimeApi};
+// use sc_client_api::{ExecutorProvider, RemoteBackend};
+use sc_client_api::{ExecutorProvider};
 use sc_consensus_aura::{ImportQueueParams, SlotProportion, StartAuraParams};
 pub use sc_executor::NativeElseWasmExecutor;
 use sc_finality_grandpa::SharedVoterState;
@@ -24,11 +25,11 @@ impl sc_executor::NativeExecutionDispatch for ExecutorDispatch {
 	type ExtendHostFunctions = ();
 
 	fn dispatch(method: &str, data: &[u8]) -> Option<Vec<u8>> {
-		node_substrate-talk-blog_runtime::api::dispatch(method, data)
+		node_substrate_talk_blog_runtime::api::dispatch(method, data)
 	}
 
 	fn native_version() -> sc_executor::NativeVersion {
-		node_substrate-talk-blog_runtime::native_version()
+		node_substrate_talk_blog_runtime::native_version()
 	}
 }
 
@@ -78,6 +79,7 @@ pub fn new_partial(
 		config.wasm_method,
 		config.default_heap_pages,
 		config.max_runtime_instances,
+		config.runtime_cache_size
 	);
 
 	let (client, backend, keystore_container, task_manager) =
