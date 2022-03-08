@@ -26,13 +26,17 @@ use sp_version::RuntimeVersion;
 // A few exports that help ease life for downstream crates.
 pub use frame_support::{
 	construct_runtime, parameter_types,
-	traits::{Currency, KeyOwnerproofSystem, Randomness, StorageInfo},
+	traits::{Currency, KeyOwnerProofSystem, Randomness, StorageInfo},
 	weights::{
 		constants::{BlockExecutionWeight, ExtrinsicBaseWeight, RocksDbWeight, WEIGHT_PER_SECOND},
 		IdentityFee, Weight,
 	},
 	StorageValue,
 };
+
+pub type RefCount = u32;
+use frame_support::pallet_prelude::{ConstU32, Get};
+
 pub use pallet_balances::Call as BalancesCall;
 pub use pallet_timestamp::Call as TimestampCall;
 use pallet_transaction_payment::CurrencyAdapter;
@@ -146,6 +150,35 @@ parameter_types! {
 	pub const BlogPostCommentMaxBytes: u32 = 1024;
 }
 
+// pub trait ConsumerLimits {
+// 	/// The number of consumers over which `inc_consumers` will cease to work.
+// 	fn max_consumers() -> RefCount;
+// 	/// The maximum number of additional consumers expected to be over be added at once using
+// 	/// `inc_consumers_without_limit`.
+// 	///
+// 	/// Note: This is not enforced and it's up to the chain's author to ensure this reflects the
+// 	/// actual situation.
+// 	fn max_overflow() -> RefCount;
+// }
+//
+// impl<const Z: u32> ConsumerLimits for ConstU32<Z> {
+// 	fn max_consumers() -> RefCount {
+// 		Z
+// 	}
+// 	fn max_overflow() -> RefCount {
+// 		Z
+// 	}
+// }
+//
+// impl<MaxNormal: Get<u32>, MaxOverflow: Get<u32>> ConsumerLimits for (MaxNormal, MaxOverflow) {
+// 	fn max_consumers() -> RefCount {
+// 		MaxNormal::get()
+// 	}
+// 	fn max_overflow() -> RefCount {
+// 		MaxOverflow::get()
+// 	}
+// }
+
 // Configure FRAME pallets to include in runtime.
 
 impl frame_system::Config for Runtime {
@@ -198,7 +231,7 @@ impl frame_system::Config for Runtime {
 	/// The set code logic, just the default since we're not a parachain.
 	type OnSetCode = ();
 
-	type MaxConsumers = ();
+	type MaxConsumers = dyn frame_system::ConsumerLimits;
 }
 
 impl pallet_randomness_collective_flip::Config for Runtime {}
@@ -336,7 +369,8 @@ pub type Executive = frame_executive::Executive<
 	Block,
 	frame_system::ChainContext<Runtime>,
 	Runtime,
-	AllPallets,
+	// AllPallets,
+	AllPalletsWithSystem
 >;
 
 impl_runtime_apis! {

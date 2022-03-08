@@ -63,7 +63,7 @@ pub mod pallet {
     #[scale_info(skip_type_params(T))]
     pub struct BlogPost<T: Config> {
         pub content: Vec<u8>,
-        pub author: <T as frame_system::Config>::AccountId
+        pub author: <T as frame_system::Config>::AccountId,
     }
 
     #[derive(Clone, Encode, Decode, PartialEq, RuntimeDebug, TypeInfo)]
