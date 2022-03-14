@@ -30,6 +30,10 @@ pub mod pallet {
     #[pallet::getter(fn blog_posts)]
     pub(super) type BlogPosts<T: Config> = StorageMap<_, Twox64Concat, T::Hash, BlogPost<T>>;
 
+    // #[pallet::storage]
+    // #[pallet::getter(fn all_blog_posts)]
+    // pub(super) type AllBlogPosts<T: Config> = StorageValue<_, BlogPosts<T>>;
+
     /// Storage Map from BlogPostId (Hash) to a list of BlogPostComments for this BlogPost
     #[pallet::storage]
     #[pallet::getter(fn blog_post_comments)]
@@ -74,22 +78,11 @@ pub mod pallet {
         pub author: <T as frame_system::Config>::AccountId,
     }
 
-    // // The pallet's runtime storage items.
-    // // https://docs.substrate.io/v3/runtime/storage
-    // #[pallet::storage]
-    // #[pallet::getter(fn something)]
-    // // Learn more about declaring storage items:
-    // // https://docs.substrate.io/v3/runtime/storage#declaring-storage-items
-    // pub type Something<T> = StorageValue<_, u32>;
-
     // Pallets use events to inform users when important changes are made.
     // https://docs.substrate.io/v3/runtime/events-and-errors
     #[pallet::event]
     #[pallet::generate_deposit(pub (super) fn deposit_event)]
     pub enum Event<T: Config> {
-        // /// Event documentation should end with an array that provides descriptive names for event
-        // /// parameters. [something, who]
-        // SomethingStored(u32, T::AccountId),
         BlogPostCreated(Vec<u8>, T::AccountId, T::Hash),
         BlogPostCommentCreated(Vec<u8>, T::AccountId, T::Hash),
         Tipped(T::AccountId, T::Hash),
@@ -115,42 +108,6 @@ pub mod pallet {
     // Dispatchable functions must be annotated with a weight and must return a DispatchResult.
     #[pallet::call]
     impl<T: Config> Pallet<T> {
-        // /// An example dispatchable that takes a singles value as a parameter, writes the value to
-        // /// storage and emits an event. This function must be dispatched by a signed extrinsic.
-        // #[pallet::weight(10_000 + T::DbWeight::get().writes(1))]
-        // pub fn do_something(origin: OriginFor<T>, something: u32) -> DispatchResult {
-        // 	// Check that the extrinsic was signed and get the signer.
-        // 	// This function will return an error if the extrinsic is not signed.
-        // 	// https://docs.substrate.io/v3/runtime/origins
-        // 	let who = ensure_signed(origin)?;
-        //
-        // 	// Update storage.
-        // 	<Something<T>>::put(something);
-        //
-        // 	// Emit an event.
-        // 	Self::deposit_event(Event::SomethingStored(something, who));
-        // 	// Return a successful DispatchResultWithPostInfo
-        // 	Ok(())
-        // }
-        //
-        // /// An example dispatchable that may throw a custom error.
-        // #[pallet::weight(10_000 + T::DbWeight::get().reads_writes(1, 1))]
-        // pub fn cause_error(origin: OriginFor<T>) -> DispatchResult {
-        // 	let _who = ensure_signed(origin)?;
-        //
-        // 	// Read a value from storage.
-        // 	match <Something<T>>::get() {
-        // 		// Return an error if the value has not been set.
-        // 		None => Err(Error::<T>::NoneValue)?,
-        // 		Some(old) => {
-        // 			// Increment the value read from storage; will error in the event of overflow.
-        // 			let new = old.checked_add(1).ok_or(Error::<T>::StorageOverflow)?;
-        // 			// Update the value in storage with the incremented result.
-        // 			<Something<T>>::put(new);
-        // 			Ok(())
-        // 		}
-        // 	}
-        // }
 
         #[pallet::weight(10000)]
         #[transactional]
