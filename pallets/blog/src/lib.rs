@@ -109,7 +109,8 @@ pub mod pallet {
     #[pallet::call]
     impl<T: Config> Pallet<T> {
 
-        #[pallet::weight(10000)]
+        // #[pallet::weight(10000)]
+		#[pallet::weight(10000000000)]
         #[transactional]
         pub fn create_blog_post(origin: OriginFor<T>, content: Vec<u8>) -> DispatchResult {
             let author = ensure_signed(origin)?;
@@ -176,7 +177,8 @@ pub mod pallet {
             Ok(())
         }
 
-        #[pallet::weight(500)]
+        // #[pallet::weight(500)]
+		#[pallet::weight(5000000000)]
         pub fn tip_blog_post(
             origin: OriginFor<T>,
             blog_post_id: T::Hash,
