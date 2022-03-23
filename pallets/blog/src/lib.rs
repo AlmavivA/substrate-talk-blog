@@ -30,10 +30,6 @@ pub mod pallet {
     #[pallet::getter(fn blog_posts)]
     pub(super) type BlogPosts<T: Config> = StorageMap<_, Twox64Concat, T::Hash, BlogPost<T>>;
 
-    // #[pallet::storage]
-    // #[pallet::getter(fn all_blog_posts)]
-    // pub(super) type AllBlogPosts<T: Config> = StorageValue<_, BlogPosts<T>>;
-
     /// Storage Map from BlogPostId (Hash) to a list of BlogPostComments for this BlogPost
     #[pallet::storage]
     #[pallet::getter(fn blog_post_comments)]

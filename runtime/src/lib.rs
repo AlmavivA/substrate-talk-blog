@@ -151,35 +151,6 @@ parameter_types! {
 	pub const BlogPostCommentMaxBytes: u32 = 1024;
 }
 
-// pub trait ConsumerLimits {
-// 	/// The number of consumers over which `inc_consumers` will cease to work.
-// 	fn max_consumers() -> RefCount;
-// 	/// The maximum number of additional consumers expected to be over be added at once using
-// 	/// `inc_consumers_without_limit`.
-// 	///
-// 	/// Note: This is not enforced and it's up to the chain's author to ensure this reflects the
-// 	/// actual situation.
-// 	fn max_overflow() -> RefCount;
-// }
-//
-// impl<const Z: u32> ConsumerLimits for ConstU32<Z> {
-// 	fn max_consumers() -> RefCount {
-// 		Z
-// 	}
-// 	fn max_overflow() -> RefCount {
-// 		Z
-// 	}
-// }
-//
-// impl<MaxNormal: Get<u32>, MaxOverflow: Get<u32>> ConsumerLimits for (MaxNormal, MaxOverflow) {
-// 	fn max_consumers() -> RefCount {
-// 		MaxNormal::get()
-// 	}
-// 	fn max_overflow() -> RefCount {
-// 		MaxOverflow::get()
-// 	}
-// }
-
 // Configure FRAME pallets to include in runtime.
 
 impl frame_system::Config for Runtime {
